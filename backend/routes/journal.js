@@ -1,3 +1,4 @@
+
 import express from "express";
 import JournalEntry from "../models/JournalEntry.js";
 import authMiddleware from "../middleware/auth.js";

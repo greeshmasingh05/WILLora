@@ -24,7 +24,6 @@ const Navbar = () => {
           <Link to="/journal" className="hover:text-orange-950 transition">Journal</Link>
           <Link to="/community" className="hover:text-orange-950 transition">Community</Link>
           <Link to="/insights" className="hover:text-orange-950 transition">Insights</Link>
-          <Link to="/ai-bot" className="hover:text-orange-950 transition">AI Bot</Link>
 
           {user ? (
             <button
@@ -63,7 +62,6 @@ const Navbar = () => {
           <Link to="/journal" onClick={closeMenu} className="block hover:text-orange-950 transition">Journal</Link>
           <Link to="/community" onClick={closeMenu} className="block hover:text-orange-950 transition">Community</Link>
           <Link to="/insights" onClick={closeMenu} className="block hover:text-orange-950 transition">Insights</Link>
-          <Link to="/ai-bot" onClick={closeMenu} className="block hover:text-orange-950 transition">AI Bot</Link>
 
           {user ? (
             <button

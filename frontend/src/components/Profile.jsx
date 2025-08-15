@@ -22,39 +22,40 @@ export default function ProfilePage() {
   const [stats, setStats] = useState({ totalEntries: 0, streak: 0, averageMood: 0, communityPosts: 0 });
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!user || !token) {
-      navigate("/login");
-      return;
+useEffect(() => {
+  if (!user || !token) {
+    navigate("/login");
+    return;
+  }
+
+  const fetchProfileStats = async () => {
+    try {
+      // Call the new stats endpoint that returns name, email, and all stats
+      const res = await axios.get("/api/journals/stats", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // Populate profile data
+      setProfileData({ name: res.data.name, email: res.data.email });
+
+      // Populate stats
+      setStats({
+        totalEntries: res.data.totalEntries,
+        streak: res.data.streak,
+        averageMood: res.data.averageMood,
+        communityPosts: res.data.communityPosts,
+      });
+
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
     }
+  };
 
-    const fetchProfileStats = async () => {
-      try {
-        const res = await axios.get("/api/journals/stats", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+  fetchProfileStats();
+}, [user, token, navigate]);
 
-        // Populate profile data and stats with fetched data
-        setProfileData({ name: res.data.name, email: res.data.email });
-        setStats({
-          totalEntries: res.data.totalEntries,
-          streak: res.data.streak,
-          averageMood: res.data.averageMood,
-          communityPosts: res.data.communityPosts,
-        });
-
-        setLoading(false);
-      } catch (err) {
-        console.error("Failed to fetch profile stats:", err);
-        setLoading(false);
-        if (err.response && err.response.status === 401) {
-          logout();
-        }
-      }
-    };
-
-    fetchProfileStats();
-  }, [user, token, navigate, logout]);
 
   if (loading) return <p className="text-center mt-20">Loading...</p>;
 
@@ -102,7 +103,6 @@ export default function ProfilePage() {
               <p><strong>Name:</strong> {profileData.name}</p>
               <p><strong>Email:</strong> {profileData.email}</p>
               <div className="mt-6 flex gap-3">
-                {/* Only keeping the Logout button */}
                 <Button variant="ghost" onClick={logout}>Logout</Button>
               </div>
             </div>
@@ -112,7 +112,7 @@ export default function ProfilePage() {
               <h2 className="font-semibold text-2xl mb-4">Your Stats</h2>
               <p><strong>Total Entries:</strong> {stats.totalEntries}</p>
               <p><strong>Current Streak:</strong> {stats.streak} days</p>
-              <p><strong>Average Mood:</strong> {stats.averageMood.toFixed(1)}</p>
+              <p><strong>Average Mood:</strong> {stats.averageMood}</p>
               <p><strong>Community Posts:</strong> {stats.communityPosts}</p>
             </div>
           </div>

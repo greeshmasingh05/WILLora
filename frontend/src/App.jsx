@@ -7,7 +7,7 @@ import JournalPage from './components/JournalPage';
 import AIChatPage from './components/AIChatPage';
 import InsightsPage from './components/InsightsPages';
 import CommunityPage from './components/CommunityPages';
-import Profile from './components/UserProfile';
+import Profile from './components/Profile.jsx';
 import ScrollProgress from "../src/components/ScrollProgress";
 import { AuthProvider } from "./context/AuthContext";
 import AboutPage from './components/AboutPage.jsx';
